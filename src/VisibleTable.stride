@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="VisibleTable" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve">Ideally this would implement the Map interface</javadoc>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <comment xml:space="preserve">need a list because we want to keep the keys in a fxed order when visualizing the map</comment>
+        <variable access="private" type="List&lt;Vertex&gt;" name="keys" enable="true"/>
+        <variable access="private" type="HashMap&lt;Vertex,VisibleInteger&gt;" name="map" enable="true"/>
+        <comment xml:space="preserve">width of entries</comment>
+        <variable access="private" type="int" name="size" value="40" value-java="40" enable="true"/>
+        <variable access="private" type="int" name="width" enable="true"/>
+        <variable access="private" type="int" name="numberOfColumns" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="keys" dest-java="keys" src="new LinkedList&lt;Vertex&gt;()" src-java=" new LinkedList &lt; Vertex &gt; ()" enable="true"/>
+                <assign dest="map" dest-java="map" src="new HashMap&lt;Vertex,VisibleInteger&gt;()" src-java=" new HashMap &lt; Vertex, VisibleInteger &gt; ()" enable="true"/>
+                <assign dest="numberOfColumns" dest-java="numberOfColumns" src="10" src-java="10" enable="true"/>
+                <assign dest="width" dest-java="width" src="numberOfColumns*size" src-java="numberOfColumns * size" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="void" name="addedToWorld" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="World" name="world"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getX" enable="true">
+            <javadoc xml:space="preserve">Get x-Coordinate of center of element at position</javadoc>
+            <params>
+                <param type="int" name="position"/>
+            </params>
+            <throws/>
+            <body>
+                <return value="getX()-width/2+size/2+position*size" value-java="getX() - width / 2 + size / 2 + position * size" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Integer" name="put" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="key"/>
+                <param type="Integer" name="value"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="VisibleInteger" name="previous" value="map.get(key)" value-java="map.get(key)" enable="true"/>
+                <variable type="Integer" name="previousValue" value="null" value-java="null" enable="true"/>
+                <if condition="previous!=null" condition-java="previous != null" enable="true">
+                    <ifStatements>
+                        <assign dest="previousValue" dest-java="previousValue" src="previous.getValue()" src-java="previous.getValue()" enable="true"/>
+                        <call expression="previous.setValue(value)" expression-java="previous.setValue(value)" enable="true"/>
+                        <call expression="previous.drawMe()" expression-java="previous.drawMe()" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <call expression="map.put(key,new VisibleInteger(value))" expression-java="map.put(key, new VisibleInteger(value))" enable="true"/>
+                        <call expression="keys.add(key)" expression-java="keys.add(key)" enable="true"/>
+                        <variable type="int" name="position" value="keys.indexOf(key)" value-java="keys.indexOf(key)" enable="true"/>
+                        <call expression="getWorld().addObject(key.getVisu(),getX(position),getY()-size/2)" expression-java="getWorld().addObject(key.getVisu(), getX(position), getY() - size / 2)" enable="true"/>
+                        <call expression="getWorld().addObject(map.get(key),getX(position),getY()+size/2)" expression-java="getWorld().addObject(map.get(key), getX(position), getY() + size / 2)" enable="true"/>
+                    </else>
+                </if>
+                <return value="previousValue" value-java="previousValue" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Set&lt;Vertex&gt;" name="keySet" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="map.keySet()" value-java="map.keySet()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Integer" name="get" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="vertex"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="VisibleInteger" name="result" value="map.get(vertex)" value-java="map.get(vertex)" enable="true"/>
+                <if condition="result==null" condition-java="result == null" enable="true">
+                    <ifStatements>
+                        <return value="null" value-java="null" enable="true"/>
+                    </ifStatements>
+                </if>
+                <return value="result.getValue()" value-java="result.getValue()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="GreenfootImage" name="image" value="new GreenfootImage(width+1,2*size+1)" value-java=" new GreenfootImage(width + 1, 2 * size + 1)" enable="true"/>
+                <call expression="image.drawRect(0,0,width,2*size)" expression-java="image.drawRect(0, 0, width, 2 * size)" enable="true"/>
+                <call expression="image.drawLine(0,size,width,size)" expression-java="image.drawLine(0, size, width, size)" enable="true"/>
+                <variable type="int" name="column" value="1" value-java="1" enable="true"/>
+                <while condition="column&lt;numberOfColumns" condition-java="column &lt; numberOfColumns" enable="true">
+                    <call expression="image.drawLine(column*size,0,column*size,2*size)" expression-java="image.drawLine(column * size, 0, column * size, 2 * size)" enable="true"/>
+                    <assign dest="column" dest-java="column" src="column+1" src-java="column + 1" enable="true"/>
+                </while>
+                <call expression="this.setImage(image)" expression-java="this.setImage(image)" enable="true"/>
+                <variable type="int" name="x" value="getX()-(width-size)/2" value-java="getX() - (width - size) / 2" enable="false"/>
+                <foreach type="Vertex" var="vertex" collection="map.keySet()" collection-java="map.keySet()" enable="false">
+                    <comment xml:space="preserve">Füge Vertex hinzu</comment>
+                    <call expression="getWorld().addObject(vertex.getVisu(),x,getY()-20)" expression-java="getWorld().addObject(vertex.getVisu(), x, getY() - 20)" enable="false"/>
+                    <comment xml:space="preserve">Füge zugehörigen Wert hinzu</comment>
+                    <variable type="VisibleInteger" name="visibleValue" value="map.get(vertex)" value-java="map.get(vertex)" enable="false"/>
+                    <if condition="visibleValue.getWorld()==null" condition-java="visibleValue.getWorld() == null" enable="false">
+                        <ifStatements>
+                            <call expression="getWorld().addObject(visibleValue,x,getY()+20)" expression-java="getWorld().addObject(visibleValue, x, getY() + 20)" enable="false"/>
+                            <assign dest="x" dest-java="x" src="x+40" src-java="x + 40" enable="false"/>
+                        </ifStatements>
+                    </if>
+                </foreach>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the VisibleTable wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body/>
+        </method>
+    </methods>
+</class>

@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Switch
+comment0.text=\n\ \n
+comment1.params=
+comment1.target=Switch()
+comment1.text=\n\ The\ switch\ is\ a\ Singleton\n
+comment2.params=
+comment2.target=Switch\ getInstance()
+comment2.text=\n\ \n
+comment3.params=
+comment3.target=void\ drawMe()
+comment3.text=\n\ \n
+comment4.params=
+comment4.target=java.lang.String[]\ getStates()
+comment4.text=\n\ \n
+comment5.params=
+comment5.target=java.lang.String\ getState()
+comment5.text=\n\ \n
+comment6.params=
+comment6.target=void\ act()
+comment6.text=\n\ Act\ -\ do\ whatever\ the\ Switch\ wants\ to\ do.\ This\ method\ is\ called\ whenever\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
+numComments=7

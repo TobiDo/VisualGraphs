@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Edge" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve"/>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="Vertex" name="start" enable="true"/>
+        <variable access="private" type="Vertex" name="end" enable="true"/>
+        <variable access="private" type="int" name="width" enable="true"/>
+        <variable access="private" type="int" name="height" enable="true"/>
+        <comment xml:space="preserve">Zur Demonstration sind ganzzahlige Werte ausreichend</comment>
+        <variable access="private" type="int" name="weight" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="start"/>
+                <param type="Vertex" name="end"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.start" dest-java="this.start" src="start" src-java="start" enable="true"/>
+                <assign dest="this.end" dest-java="this.end" src="end" src-java="end" enable="true"/>
+                <assign dest="weight" dest-java="weight" src="1" src-java="1" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="int" name="getWeight" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="this.weight" value-java="this.weight" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="setWeight" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="weight"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.weight" dest-java="this.weight" src="weight" src-java="weight" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getUpperLeftX" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="min(start.getX(),end.getX())" value-java="min(start.getX(), end.getX())" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getUpperLeftY" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="min(start.getY(),end.getY())" value-java="min(start.getY(), end.getY())" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getCenterX" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="(start.getX()+end.getX())/2" value-java="(start.getX() + end.getX()) / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getCenterY" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="(start.getY()+end.getY())/2" value-java="(start.getY() + end.getY()) / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="max" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="a"/>
+                <param type="int" name="b"/>
+            </params>
+            <throws/>
+            <body>
+                <if condition="a&gt;=b" condition-java="a &gt;= b" enable="true">
+                    <ifStatements>
+                        <return value="a" value-java="a" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <return value="b" value-java="b" enable="true"/>
+                    </else>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="int" name="min" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="a"/>
+                <param type="int" name="b"/>
+            </params>
+            <throws/>
+            <body>
+                <return value="-max(-a,-b)" value-java=" - max( - a, - b)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Color" name="color"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="this.setLocation(this.getCenterX(),this.getCenterY())" expression-java="this.setLocation(this.getCenterX(), this.getCenterY())" enable="true"/>
+                <call expression="this.setImage(Images.edgeImage(this,color))" expression-java="this.setImage(Images.edgeImage(this, color))" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="mark" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <call expression="this.drawMe(Color.red)" expression-java="this.drawMe(Color.red)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="unmark" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <call expression="this.drawMe(Color.black)" expression-java="this.drawMe(Color.black)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="boolean" name="isAdjacent" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="vertex"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">returns true if and only if vertex is start of edge OR end of edge</comment>
+                <return value="start.equals(vertex)||end.equals(vertex)" value-java="start.equals(vertex) || end.equals(vertex)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="getStart" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="start" value-java="start" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="getEnd" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="end" value-java="end" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="getOther" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="vertex"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">Assumes that argument vertex is adjacent to this edge. Returns the other edge.</comment>
+                <if condition="getStart().equals(vertex)" condition-java="getStart().equals(vertex)" enable="true">
+                    <ifStatements>
+                        <return value="getEnd()" value-java="getEnd()" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <return value="getStart()" value-java="getStart()" enable="true"/>
+                    </else>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="Edge" name="getInverted" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="new Edge(this.getEnd(),this.getStart())" value-java=" new Edge(this.getEnd(), this.getStart())" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="remove" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <call expression="this.getWorld().removeObject(this)" expression-java="this.getWorld().removeObject(this)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="boolean" name="equals" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Object" name="o"/>
+            </params>
+            <throws/>
+            <body>
+                <if condition="o==null" condition-java="o == null" enable="true">
+                    <ifStatements>
+                        <return value="false" value-java="false" enable="true"/>
+                    </ifStatements>
+                </if>
+                <variable type="Edge" name="edge" value="(Edge)o" value-java="(Edge)o" enable="true"/>
+                <return value="edge.getStart().equals(this.getStart())&amp;&amp;edge.getEnd().equals(this.getEnd())" value-java="edge.getStart().equals(this.getStart()) &amp;&amp; edge.getEnd().equals(this.getEnd())" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Graph" name="getGraph" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="start.getGraph()" value-java="start.getGraph()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the Edge wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="getGraph().getSwitcherState().equals(&quot;Delete Edge&quot;)||getGraph().getSwitcherState().equals(&quot;Change weight&quot;)" condition-java="getGraph().getSwitcherState().equals(&quot;Delete Edge&quot;) || getGraph().getSwitcherState().equals(&quot;Change weight&quot;)" enable="true">
+                    <ifStatements>
+                        <if condition="Greenfoot.mouseClicked(this)" condition-java="Greenfoot.mouseClicked(this)" enable="true">
+                            <ifStatements>
+                                <comment xml:space="preserve">Die Idee ist, dass die Kante nur ausgewählt wird wenn sie wirklich angeklickt wird und nicht auch denn, wenn nur in das Rechteck, dessen Diagonale sie ist, geklickt wird. Funktioniert noch nicht richtig. Außerdem funktioniert es auch nicht, wenn sich die umgebenden Rechtecke überlagern, da Greenfoot den Mouse-Event immer nur am weitesten oben liegenden Actor "meldet".</comment>
+                                <variable type="int" name="mouseX" value="Greenfoot.getMouseInfo().getX()" value-java="Greenfoot.getMouseInfo().getX()" enable="true"/>
+                                <variable type="int" name="mouseY" value="Greenfoot.getMouseInfo().getY()" value-java="Greenfoot.getMouseInfo().getY()" enable="true"/>
+                                <variable type="int" name="connectionY" value="(mouseX-start.getX())*(end.getY()-start.getY())/(end.getX()-start.getX())" value-java="(mouseX - start.getX()) * (end.getY() - start.getY()) / (end.getX() - start.getX())" enable="true"/>
+                                <if condition="Math.abs(connectionY-mouseY+start.getY())&lt;=20" condition-java="Math.abs(connectionY - mouseY + start.getY()) &lt;= 20" enable="true">
+                                    <ifStatements>
+                                        <call expression="getWorldOfType(MyWorld.class).handle(this,getGraph().getSwitcherState())" expression-java="getWorldOfType(MyWorld.class).handle(this, getGraph().getSwitcherState())" enable="true"/>
+                                    </ifStatements>
+                                </if>
+                            </ifStatements>
+                        </if>
+                    </ifStatements>
+                    <elseIf condition="getGraph().getSwitcherState().equals(&quot;Change weight&quot;)" condition-java="getGraph().getSwitcherState().equals(&quot;Change weight&quot;)">
+                        <variable type="String" name="key" value="Greenfoot.getKey()" value-java="Greenfoot.getKey()" enable="true"/>
+                        <if condition="key!=null" condition-java="key != null" enable="true">
+                            <ifStatements>
+                                <call expression="System.out.println(key)" expression-java="System.out.println(key)" enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </elseIf>
+                </if>
+            </body>
+        </method>
+    </methods>
+</class>

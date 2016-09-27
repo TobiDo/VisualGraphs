@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="WeightChanger" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve"/>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="Edge" name="edge" enable="true"/>
+        <variable access="private" type="Graph" name="graph" enable="true"/>
+        <variable access="private" type="int" name="intermediateWeight" value="0" value-java="0" enable="true"/>
+        <variable access="private" type="World" name="world" enable="true"/>
+        <variable access="private" type="int" name="x" enable="true"/>
+        <variable access="private" type="int" name="y" enable="true"/>
+        <variable access="private" type="Switch" name="switcher" value="Switch.getInstance()" value-java="Switch.getInstance()" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Edge" name="edge"/>
+                <param type="Graph" name="graph"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.edge" dest-java="this.edge" src="edge" src-java="edge" enable="true"/>
+                <assign dest="this.graph" dest-java="this.graph" src="graph" src-java="graph" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="protected" type="void" name="addedToWorld" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="World" name="world"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">remember the world we have been added to and also where we are in the world</comment>
+                <assign dest="this.world" dest-java="this.world" src="world" src-java="world" enable="true"/>
+                <assign dest="this.x" dest-java="this.x" src="this.getX()" src-java="this.getX()" enable="true"/>
+                <assign dest="this.y" dest-java="this.y" src="this.getY()" src-java="this.getY()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="addDigit" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="digit"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">assumes that 0 &lt;= digit &lt;=9</comment>
+                <assign dest="intermediateWeight" dest-java="intermediateWeight" src="intermediateWeight*10+digit" src-java="intermediateWeight * 10 + digit" enable="true"/>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="removeLastDigit" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="intermediateWeight" dest-java="intermediateWeight" src="intermediateWeight/10" src-java="intermediateWeight / 10" enable="true"/>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="setEdge" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Edge" name="edge"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.edge" dest-java="this.edge" src="edge" src-java="edge" enable="true"/>
+                <if condition="edge==null" condition-java="edge == null" enable="true">
+                    <ifStatements>
+                        <call expression="getWorld().removeObject(this)" expression-java="getWorld().removeObject(this)" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <call expression="world.addObject(this,x,y)" expression-java="world.addObject(this, x, y)" enable="true"/>
+                    </else>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="GreenfootImage" name="image" value="new GreenfootImage(100,20)" value-java=" new GreenfootImage(100, 20)" enable="true"/>
+                <call expression="image.drawString(String.valueOf(intermediateWeight),0,20)" expression-java="image.drawString(String.valueOf(intermediateWeight), 0, 20)" enable="true"/>
+                <call expression="this.setImage(image)" expression-java="this.setImage(image)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the WeightChanger wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="String" name="key" value="Greenfoot.getKey()" value-java="Greenfoot.getKey()" enable="true"/>
+                <if condition="switcher.getState().equals(&quot;Change weight&quot;)" condition-java="switcher.getState().equals(&quot;Change weight&quot;)" enable="true">
+                    <ifStatements>
+                        <if condition="key!=null&amp;&amp;this.edge!=null" condition-java="key != null &amp;&amp; this.edge != null" enable="true">
+                            <ifStatements>
+                                <if condition="key.equals(&quot;enter&quot;)" condition-java="key.equals(&quot;enter&quot;)" enable="true">
+                                    <ifStatements>
+                                        <call expression="this.edge.setWeight(intermediateWeight)" expression-java="this.edge.setWeight(intermediateWeight)" enable="true"/>
+                                        <call expression="this.edge.drawMe(Color.black)" expression-java="this.edge.drawMe(Color.black)" enable="true"/>
+                                        <assign dest="this.intermediateWeight" dest-java="this.intermediateWeight" src="0" src-java="0" enable="true"/>
+                                        <call expression="this.drawMe()" expression-java="this.drawMe()" enable="true"/>
+                                        <call expression="this.setEdge(null)" expression-java="this.setEdge(null)" enable="true"/>
+                                        <return enable="true"/>
+                                    </ifStatements>
+                                    <elseIf condition="key.equals(&quot;backspace&quot;)" condition-java="key.equals(&quot;backspace&quot;)">
+                                        <call expression="removeLastDigit()" expression-java="removeLastDigit()" enable="true"/>
+                                    </elseIf>
+                                    <else>
+                                        <variable type="int" name="digit" enable="true"/>
+                                        <try enable="true">
+                                            <tryStatements>
+                                                <assign dest="digit" dest-java="digit" src="Integer.parseInt(key)" src-java="Integer.parseInt(key)" enable="true"/>
+                                            </tryStatements>
+                                            <catch type="NumberFormatException" name="e">
+                                                <return enable="true"/>
+                                            </catch>
+                                        </try>
+                                        <call expression="addDigit(digit)" expression-java="addDigit(digit)" enable="true"/>
+                                    </else>
+                                </if>
+                            </ifStatements>
+                        </if>
+                    </ifStatements>
+                </if>
+            </body>
+        </method>
+    </methods>
+</class>

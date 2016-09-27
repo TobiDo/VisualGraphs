@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=MyWorld
+comment0.text=\n\ The\ MyWorld\ class\ takes\ care\ of\ positioning\ the\ graph,\ switches\ and\ display\ etc.\n
+comment1.params=
+comment1.target=MyWorld()
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ MyWorld.\n
+comment2.params=edge\ state
+comment2.target=void\ handle(Edge,\ java.lang.String)
+comment2.text=\n\ Gets\ called\ when\ user\ clicks\ on\ an\ edge\ in\ Delete\ Edge\ or\ Change\ Weight\ state\n\ The\ edge\ gets\ highlighted\ (and\ previously\ selected\ edges\ get\ unhighlighted).\ Further\ action\ is\ delegated\ to\ responsible\ classes.\n
+comment3.params=vertex\ state
+comment3.target=void\ handle(Vertex,\ java.lang.String)
+comment3.text=\n\ Gets\ called\ when\ user\ clicks\ on\ a\ vertex\ in\ certain\ states.\n\ On\ the\ first\ click\ the\ vertex\ gets\ marked\ and\ saved.\ When\ another\ vertex\ is\ clicked,\ the\ corresponding\ actions\ are\ performed.\n\ NOTE\:\ As\ it\ is\ now,\ this\ is\ only\ useful\ for\ actions\ that\ require\ to\ vertices.\n
+comment4.params=
+comment4.target=void\ unsetEdge()
+comment4.text=\n\ Discard\ the\ saved\ edge.\ Used\ for\ example\ whenever\ we\ change\ the\ state.\n
+comment5.params=
+comment5.target=void\ resetVertex()
+comment5.text=\n\ Discard\ the\ saved\ vertex.\ Used\ for\ example\ whenever\ we\ change\ the\ state.\n
+numComments=6

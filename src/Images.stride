@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Images" enable="true" strideversion="1">
+    <javadoc xml:space="preserve">Write a description of class Images here.</javadoc>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="public" static="true" final="true" type="int" name="vertexSize" value="40" value-java="40" enable="true"/>
+        <variable access="public" static="true" final="true" type="int" name="vertexMargin" value="5" value-java="5" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve">Constructor for objects of class Images</javadoc>
+            <params/>
+            <throws/>
+            <body/>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" static="true" type="GreenfootImage" name="vertexImage" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="vertex"/>
+                <param type="Color" name="color"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="GreenfootImage" name="vertexImage" value="new GreenfootImage(vertexSize,vertexSize)" value-java=" new GreenfootImage(vertexSize, vertexSize)" enable="true"/>
+                <call expression="vertexImage.setColor(color)" expression-java="vertexImage.setColor(color)" enable="true"/>
+                <call expression="vertexImage.fillOval(vertexMargin,vertexMargin,vertexSize-2*vertexMargin,vertexSize-2*vertexMargin)" expression-java="vertexImage.fillOval(vertexMargin, vertexMargin, vertexSize - 2 * vertexMargin, vertexSize - 2 * vertexMargin)" enable="true"/>
+                <call expression="vertexImage.setFont(new java.awt.Font(&quot;Courier New&quot;,1,20))" expression-java="vertexImage.setFont( new java.awt.Font(&quot;Courier New&quot;, 1, 20))" enable="true"/>
+                <call expression="vertexImage.setColor(Color.white)" expression-java="vertexImage.setColor(Color.white)" enable="true"/>
+                <call expression="vertexImage.drawString(vertex.getName(),13,27)" expression-java="vertexImage.drawString(vertex.getName(), 13, 27)" enable="true"/>
+                <return value="vertexImage" value-java="vertexImage" enable="true"/>
+            </body>
+        </method>
+        <method access="public" static="true" type="int" name="getWeightX" enable="true">
+            <javadoc xml:space="preserve">Returns x-value where weight of edge is put</javadoc>
+            <params>
+                <param type="int" name="vecX"/>
+                <param type="int" name="vecY"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="int" name="perpX" value="-vecY" value-java=" - vecY" enable="true"/>
+                <variable type="int" name="perpY" value="vecX" value-java="vecX" enable="true"/>
+                <variable type="double" name="length" value="Math.sqrt(perpX*perpX+perpY*perpY)" value-java="Math.sqrt(perpX * perpX + perpY * perpY)" enable="true"/>
+                <return value="vecX/2+(int)(perpX/length*15)" value-java="vecX / 2 + (int)(perpX / length * 15)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" static="true" type="int" name="getWeightY" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="vecX"/>
+                <param type="int" name="vecY"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="int" name="perpX" value="-vecY" value-java=" - vecY" enable="true"/>
+                <variable type="int" name="perpY" value="vecX" value-java="vecX" enable="true"/>
+                <variable type="double" name="length" value="Math.sqrt(perpX*perpX+perpY*perpY)" value-java="Math.sqrt(perpX * perpX + perpY * perpY)" enable="true"/>
+                <return value="vecY/2+(int)(perpY/length*15)" value-java="vecY / 2 + (int)(perpY / length * 15)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" static="true" type="GreenfootImage" name="edgeImage" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Edge" name="edge"/>
+                <param type="Color" name="color"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="int" name="startX" value="edge.getStart().getX()" value-java="edge.getStart().getX()" enable="true"/>
+                <variable type="int" name="startY" value="edge.getStart().getY()" value-java="edge.getStart().getY()" enable="true"/>
+                <variable type="int" name="endX" value="edge.getEnd().getX()" value-java="edge.getEnd().getX()" enable="true"/>
+                <variable type="int" name="endY" value="edge.getEnd().getY()" value-java="edge.getEnd().getY()" enable="true"/>
+                <variable type="int" name="startToEndX" value="endX-startX" value-java="endX - startX" enable="true"/>
+                <variable type="int" name="startToEndY" value="endY-startY" value-java="endY - startY" enable="true"/>
+                <variable type="int" name="width" value="Math.abs(startToEndX)+vertexSize" value-java="Math.abs(startToEndX) + vertexSize" enable="true"/>
+                <variable type="int" name="height" value="Math.abs(startToEndY)+vertexSize" value-java="Math.abs(startToEndY) + vertexSize" enable="true"/>
+                <variable type="int" name="startPosX" enable="true"/>
+                <variable type="int" name="startPosY" enable="true"/>
+                <if condition="startToEndX&gt;0" condition-java="startToEndX &gt; 0" enable="true">
+                    <ifStatements>
+                        <assign dest="startPosX" dest-java="startPosX" src="vertexSize/2" src-java="vertexSize / 2" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <assign dest="startPosX" dest-java="startPosX" src="width-vertexSize/2" src-java="width - vertexSize / 2" enable="true"/>
+                    </else>
+                </if>
+                <if condition="startToEndY&gt;0" condition-java="startToEndY &gt; 0" enable="true">
+                    <ifStatements>
+                        <assign dest="startPosY" dest-java="startPosY" src="vertexSize/2" src-java="vertexSize / 2" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <assign dest="startPosY" dest-java="startPosY" src="height-vertexSize/2" src-java="height - vertexSize / 2" enable="true"/>
+                    </else>
+                </if>
+                <variable type="GreenfootImage" name="edgeImage" value="new GreenfootImage(width,height)" value-java=" new GreenfootImage(width, height)" enable="true"/>
+                <call expression="edgeImage.setColor(color)" expression-java="edgeImage.setColor(color)" enable="true"/>
+                <call expression="edgeImage.drawLine(startPosX,startPosY,startPosX+startToEndX,startPosY+startToEndY)" expression-java="edgeImage.drawLine(startPosX, startPosY, startPosX + startToEndX, startPosY + startToEndY)" enable="true"/>
+                <comment xml:space="preserve">mark center of edge weight</comment>
+                <call expression="edgeImage.drawString(String.valueOf(edge.getWeight()),startPosX+getWeightX(startToEndX,startToEndY)-2,startPosY+getWeightY(startToEndX,startToEndY)+5)" expression-java="edgeImage.drawString(String.valueOf(edge.getWeight()), startPosX + getWeightX(startToEndX, startToEndY) - 2, startPosY + getWeightY(startToEndX, startToEndY) + 5)" enable="true"/>
+                <return value="edgeImage" value-java="edgeImage" enable="true"/>
+            </body>
+        </method>
+    </methods>
+</class>

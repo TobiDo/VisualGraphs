@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=VisibleInteger
+comment0.text=\n\ The\ representation\ of\ an\ integer\ \ ..\ not\ ready\ yet\n
+comment1.params=value
+comment1.target=VisibleInteger(int)
+comment1.text=\n\ \n
+comment2.params=
+comment2.target=java.lang.Integer\ getValue()
+comment2.text=\n\ \n
+comment3.params=value
+comment3.target=void\ setValue(int)
+comment3.text=\n\ \n
+comment4.params=
+comment4.target=void\ drawMe()
+comment4.text=\n\ \n
+comment5.params=
+comment5.target=void\ act()
+comment5.text=\n\ Act\ -\ do\ whatever\ the\ VisibleInteger\ wants\ to\ do.\ This\ method\ is\ called\ whenever\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
+numComments=6

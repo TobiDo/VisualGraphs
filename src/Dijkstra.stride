@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Dijkstra" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve">Write a description of class Dijkstra here.</javadoc>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="World" name="world" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve">Constructor for objects of class Dijkstra</javadoc>
+            <params/>
+            <throws/>
+            <body/>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="void" name="shortestPath" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="start"/>
+                <param type="Vertex" name="target"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="Display" name="display" value="Display.getInstance()" value-java="Display.getInstance()" enable="true"/>
+                <variable type="Set&lt;Vertex&gt;" name="foundShortest" value="new HashSet&lt;Vertex&gt;()" value-java=" new HashSet &lt; Vertex &gt; ()" enable="true"/>
+                <variable type="VisibleTable" name="distances" value="new VisibleTable()" value-java=" new VisibleTable()" enable="true"/>
+                <call expression="this.getWorld().addObject(distances,300,550)" expression-java="this.getWorld().addObject(distances, 300, 550)" enable="true"/>
+                <variable type="Vertex" name="current" value="start" value-java="start" enable="true"/>
+                <call expression="distances.put(current,0)" expression-java="distances.put(current, 0)" enable="true"/>
+                <while condition="true" condition-java="true" enable="true">
+                    <call expression="current.highlight()" expression-java="current.highlight()" enable="true"/>
+                    <variable type="int" name="currentDistance" value="distances.get(current)" value-java="distances.get(current)" enable="true"/>
+                    <call expression="foundShortest.add(current)" expression-java="foundShortest.add(current)" enable="true"/>
+                    <call expression="display.setMessage(&quot;Der kürzeste Weg nach &quot;+current.getName()+&quot; hat Länge &quot;+currentDistance+&quot;.&quot;)" expression-java="display.setMessage(&quot;Der kürzeste Weg nach &quot; + current.getName() + &quot; hat Länge &quot; + currentDistance + &quot;.&quot;)" enable="true"/>
+                    <call expression="Greenfoot.delay(100)" expression-java="Greenfoot.delay(100)" enable="true"/>
+                    <foreach type="Edge" var="edge" collection="current.getAdjacentEdges()" collection-java="current.getAdjacentEdges()" enable="true">
+                        <variable type="Vertex" name="end" value="edge.getOther(current)" value-java="edge.getOther(current)" enable="true"/>
+                        <variable type="Integer" name="thisDist" value="distances.get(end)" value-java="distances.get(end)" enable="true"/>
+                        <if condition="thisDist==null||(thisDist&gt;edge.getWeight()+currentDistance)" condition-java="thisDist == null || (thisDist &gt; edge.getWeight() + currentDistance)" enable="true">
+                            <ifStatements>
+                                <call expression="distances.put(end,edge.getWeight()+currentDistance)" expression-java="distances.put(end, edge.getWeight() + currentDistance)" enable="true"/>
+                                <call expression="display.setMessage(&quot;Kürzeren Weg nach &quot;+end.getName()+&quot; gefunden.&quot;)" expression-java="display.setMessage(&quot;Kürzeren Weg nach &quot; + end.getName() + &quot; gefunden.&quot;)" enable="true"/>
+                                <call expression="Greenfoot.delay(100)" expression-java="Greenfoot.delay(100)" enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </foreach>
+                    <variable type="int" name="min" value="-1" value-java="-1" enable="true"/>
+                    <foreach type="Vertex" var="vertex" collection="distances.keySet()" collection-java="distances.keySet()" enable="true">
+                        <if condition="!foundShortest.contains(vertex)&amp;&amp;(distances.get(vertex)&lt;min||min==-1)" condition-java=" ! foundShortest.contains(vertex) &amp;&amp; (distances.get(vertex) &lt; min || min == -1)" enable="true">
+                            <ifStatements>
+                                <assign dest="min" dest-java="min" src="distances.get(vertex)" src-java="distances.get(vertex)" enable="true"/>
+                                <assign dest="current" dest-java="current" src="vertex" src-java="vertex" enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </foreach>
+                    <if condition="min==-1" condition-java="min == -1" enable="true">
+                        <ifStatements>
+                            <break enable="true"/>
+                        </ifStatements>
+                    </if>
+                </while>
+            </body>
+        </method>
+    </methods>
+</class>

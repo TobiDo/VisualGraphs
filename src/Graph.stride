@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Graph" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve">Represents a simple (that means: not more than one edge bewtween two vertices) undirected Graph. </javadoc>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <comment xml:space="preserve">Width and height of the rectangle in which the Graph is visualized</comment>
+        <variable access="private" type="int" name="width" enable="true"/>
+        <variable access="private" type="int" name="height" enable="true"/>
+        <variable access="private" type="Set&lt;Vertex&gt;" name="vertices" enable="true"/>
+        <variable access="private" type="Set&lt;Edge&gt;" name="edges" enable="true"/>
+        <variable access="private" type="Switch" name="switcher" enable="true"/>
+        <comment xml:space="preserve">Exactly one vertex of the graph can be highlighted via hightlight(). NOTE: The method mark () can mark more than one vertex.</comment>
+        <variable access="private" type="Vertex" name="highlightedVertex" enable="true"/>
+        <blank/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="width"/>
+                <param type="int" name="height"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.width" dest-java="this.width" src="width" src-java="width" enable="true"/>
+                <assign dest="this.height" dest-java="this.height" src="height" src-java="height" enable="true"/>
+                <assign dest="vertices" dest-java="vertices" src="new HashSet&lt;Vertex&gt;()" src-java=" new HashSet &lt; Vertex &gt; ()" enable="true"/>
+                <assign dest="edges" dest-java="edges" src="new HashSet&lt;Edge&gt;()" src-java=" new HashSet &lt; Edge &gt; ()" enable="true"/>
+                <assign dest="switcher" dest-java="switcher" src="Switch.getInstance()" src-java="Switch.getInstance()" enable="true"/>
+                <assign dest="highlightedVertex" dest-java="highlightedVertex" src="null" src-java="null" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="void" name="addVertex" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="vertex"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="vertex.setGraph(this)" expression-java="vertex.setGraph(this)" enable="true"/>
+                <call expression="vertices.add(vertex)" expression-java="vertices.add(vertex)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="createVertex" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">creates a new vertex with a name that is not already taken - so far no more than 26 vertices can be created in this way</comment>
+                <variable type="int" name="i" value="0" value-java="0" enable="true"/>
+                <variable type="String" name="name" enable="true"/>
+                <while condition="i&lt;26" condition-java="i &lt; 26" enable="true">
+                    <assign dest="name" dest-java="name" src="String.valueOf((char)('A'+i))" src-java="String.valueOf((char)('A' + i))" enable="true"/>
+                    <variable type="boolean" name="contained" value="false" value-java="false" enable="true"/>
+                    <foreach type="Vertex" var="vertex" collection="vertices" collection-java="vertices" enable="true">
+                        <if condition="vertex.getName().equals(name)" condition-java="vertex.getName().equals(name)" enable="true">
+                            <ifStatements>
+                                <assign dest="contained" dest-java="contained" src="true" src-java="true" enable="true"/>
+                                <break enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </foreach>
+                    <if condition="!contained" condition-java=" ! contained" enable="true">
+                        <ifStatements>
+                            <variable type="Vertex" name="newVertex" value="new Vertex(name)" value-java=" new Vertex(name)" enable="true"/>
+                            <call expression="this.addVertex(newVertex)" expression-java="this.addVertex(newVertex)" enable="true"/>
+                            <return value="newVertex" value-java="newVertex" enable="true"/>
+                        </ifStatements>
+                    </if>
+                    <assign dest="i" dest-java="i" src="i+1" src-java="i + 1" enable="true"/>
+                </while>
+                <return value="null" value-java="null" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="addUndirectedEdge" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="vertexA"/>
+                <param type="Vertex" name="vertexB"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="vertexA.addFollower(vertexB)" expression-java="vertexA.addFollower(vertexB)" enable="true"/>
+                <call expression="vertexB.addFollower(vertexA)" expression-java="vertexB.addFollower(vertexA)" enable="true"/>
+                <variable type="Edge" name="edge" value="new Edge(vertexA,vertexB)" value-java=" new Edge(vertexA, vertexB)" enable="true"/>
+                <call expression="getWorld().addObject(edge,edge.getUpperLeftX(),edge.getUpperLeftY())" expression-java="getWorld().addObject(edge, edge.getUpperLeftX(), edge.getUpperLeftY())" enable="true"/>
+                <call expression="edge.drawMe(Color.black)" expression-java="edge.drawMe(Color.black)" enable="true"/>
+                <call expression="edges.add(edge)" expression-java="edges.add(edge)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="addDirectedEdge" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="start"/>
+                <param type="Vertex" name="end"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">don't use </comment>
+                <call expression="start.addFollower(end)" expression-java="start.addFollower(end)" enable="true"/>
+                <variable type="Edge" name="edge" value="new Edge(start,end)" value-java=" new Edge(start, end)" enable="true"/>
+                <call expression="getWorld().addObject(edge,edge.getUpperLeftX(),edge.getUpperLeftY())" expression-java="getWorld().addObject(edge, edge.getUpperLeftX(), edge.getUpperLeftY())" enable="true"/>
+                <call expression="edge.drawMe(Color.black)" expression-java="edge.drawMe(Color.black)" enable="true"/>
+                <call expression="edges.add(edge)" expression-java="edges.add(edge)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Set&lt;Edge&gt;" name="getAdjacentEdges" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="vertex"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="Set&lt;Edge&gt;" name="adjacent" value="new HashSet&lt;Edge&gt;()" value-java=" new HashSet &lt; Edge &gt; ()" enable="true"/>
+                <foreach type="Edge" var="edge" collection="edges" collection-java="edges" enable="true">
+                    <if condition="edge.isAdjacent(vertex)" condition-java="edge.isAdjacent(vertex)" enable="true">
+                        <ifStatements>
+                            <call expression="adjacent.add(edge)" expression-java="adjacent.add(edge)" enable="true"/>
+                        </ifStatements>
+                    </if>
+                </foreach>
+                <return value="adjacent" value-java="adjacent" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="deleteEdge" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Edge" name="edge"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">TODO: this is a terrible hack -&gt; improve!</comment>
+                <comment xml:space="preserve">delete edges from world</comment>
+                <foreach type="Edge" var="edge2" collection="edges" collection-java="edges" enable="true">
+                    <if condition="edge2.equals(edge)||edge2.equals(edge.getInverted())" condition-java="edge2.equals(edge) || edge2.equals(edge.getInverted())" enable="true">
+                        <ifStatements>
+                            <call expression="edge2.remove()" expression-java="edge2.remove()" enable="true"/>
+                            <call expression="getWorld().removeObject(edge2)" expression-java="getWorld().removeObject(edge2)" enable="false"/>
+                        </ifStatements>
+                    </if>
+                </foreach>
+                <comment xml:space="preserve">delete edges form graph</comment>
+                <call expression="edge.getStart().removeFollower(edge.getEnd())" expression-java="edge.getStart().removeFollower(edge.getEnd())" enable="true"/>
+                <call expression="edge.getEnd().removeFollower(edge.getStart())" expression-java="edge.getEnd().removeFollower(edge.getStart())" enable="true"/>
+                <call expression="edges.remove(edge)" expression-java="edges.remove(edge)" enable="true"/>
+                <call expression="edges.remove(edge.getInverted())" expression-java="edges.remove(edge.getInverted())" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="String" name="getSwitcherState" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="this.switcher.getState()" value-java="this.switcher.getState()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="highlightVertex" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="vertex"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">highlights vertex; only one vertex of the graph can be highlighted at a time</comment>
+                <if condition="highlightedVertex!=null" condition-java="highlightedVertex != null" enable="true">
+                    <ifStatements>
+                        <if condition="highlightedVertex.isMarked()" condition-java="highlightedVertex.isMarked()" enable="true">
+                            <ifStatements>
+                                <call expression="highlightedVertex.mark()" expression-java="highlightedVertex.mark()" enable="true"/>
+                            </ifStatements>
+                            <else>
+                                <call expression="highlightedVertex.drawMe(Color.black)" expression-java="highlightedVertex.drawMe(Color.black)" enable="true"/>
+                            </else>
+                        </if>
+                    </ifStatements>
+                </if>
+                <assign dest="highlightedVertex" dest-java="highlightedVertex" src="vertex" src-java="vertex" enable="true"/>
+                <call expression="highlightedVertex.drawMe(Color.red)" expression-java="highlightedVertex.drawMe(Color.red)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="unhighlightVertex" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="highlightedVertex!=null" condition-java="highlightedVertex != null" enable="true">
+                    <ifStatements>
+                        <call expression="highlightedVertex.drawMe(Color.black)" expression-java="highlightedVertex.drawMe(Color.black)" enable="true"/>
+                        <assign dest="highlightedVertex" dest-java="highlightedVertex" src="null" src-java="null" enable="true"/>
+                    </ifStatements>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="void" name="unmarkAll" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <foreach type="Vertex" var="vertex" collection="vertices" collection-java="vertices" enable="true">
+                    <call expression="vertex.unmark()" expression-java="vertex.unmark()" enable="true"/>
+                </foreach>
+            </body>
+        </method>
+        <method access="public" type="void" name="bfsearch" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="start"/>
+                <param type="Vertex" name="target"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">Breitensuche</comment>
+                <variable type="Display" name="display" value="Display.getInstance()" value-java="Display.getInstance()" enable="true"/>
+                <variable type="VisibleQueue" name="visibleQueue" value="new VisibleQueue(this.width-100,30)" value-java=" new VisibleQueue(this.width - 100, 30)" enable="true"/>
+                <call expression="getWorld().addObject(visibleQueue,this.getX()+50,getWorld().getHeight()-40)" expression-java="getWorld().addObject(visibleQueue, this.getX() + 50, getWorld().getHeight() - 40)" enable="true"/>
+                <variable type="Set&lt;Vertex&gt;" name="added" value="new HashSet&lt;Vertex&gt;()" value-java=" new HashSet &lt; Vertex &gt; ()" enable="true"/>
+                <call expression="visibleQueue.add(start)" expression-java="visibleQueue.add(start)" enable="true"/>
+                <call expression="added.add(start)" expression-java="added.add(start)" enable="true"/>
+                <while condition="!visibleQueue.isEmpty()" condition-java=" ! visibleQueue.isEmpty()" enable="true">
+                    <call expression="Greenfoot.delay(10)" expression-java="Greenfoot.delay(10)" enable="true"/>
+                    <variable type="Vertex" name="current" value="visibleQueue.poll()" value-java="visibleQueue.poll()" enable="true"/>
+                    <call expression="current.mark()" expression-java="current.mark()" enable="true"/>
+                    <call expression="display.setMessage(&quot;Visit vertex: &quot;+current.getName())" expression-java="display.setMessage(&quot;Visit vertex: &quot; + current.getName())" enable="true"/>
+                    <call expression="this.highlightVertex(current)" expression-java="this.highlightVertex(current)" enable="true"/>
+                    <if condition="current.equals(target)" condition-java="current.equals(target)" enable="true">
+                        <ifStatements>
+                            <comment xml:space="preserve">Der gesuchte Knoten wurde gefunden, markiere diesen grün. Im Anschluss könnte break stehen. Aus Demonstrationszwecken wird der Algorithmus aber weiterlaufen gelassen.</comment>
+                            <call expression="current.drawMe(Color.green)" expression-java="current.drawMe(Color.green)" enable="true"/>
+                            <call expression="display.setMessage(&quot;Found the vertex.&quot;)" expression-java="display.setMessage(&quot;Found the vertex.&quot;)" enable="true"/>
+                            <break enable="true"/>
+                        </ifStatements>
+                    </if>
+                    <call expression="Greenfoot.delay(50)" expression-java="Greenfoot.delay(50)" enable="true"/>
+                    <variable type="List&lt;Vertex&gt;" name="followers" value="current.getFollowers()" value-java="current.getFollowers()" enable="true"/>
+                    <foreach type="Vertex" var="vertex" collection="followers" collection-java="followers" enable="true">
+                        <call expression="display.setMessage(&quot;Add neighbours of &quot;+current.getName()+&quot; to queue.&quot;)" expression-java="display.setMessage(&quot;Add neighbours of &quot; + current.getName() + &quot; to queue.&quot;)" enable="true"/>
+                        <if condition="!added.contains(vertex)" condition-java=" ! added.contains(vertex)" enable="true">
+                            <ifStatements>
+                                <call expression="visibleQueue.add(vertex)" expression-java="visibleQueue.add(vertex)" enable="true"/>
+                                <call expression="added.add(vertex)" expression-java="added.add(vertex)" enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </foreach>
+                    <call expression="display.clearMessage()" expression-java="display.clearMessage()" enable="true"/>
+                </while>
+                <call expression="Greenfoot.delay(150)" expression-java="Greenfoot.delay(150)" enable="true"/>
+                <call expression="display.clearMessage()" expression-java="display.clearMessage()" enable="true"/>
+                <call expression="visibleQueue.removeFromWorld()" expression-java="visibleQueue.removeFromWorld()" enable="true"/>
+                <call expression="unmarkAll()" expression-java="unmarkAll()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="dfsearch" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="start"/>
+                <param type="Vertex" name="target"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="Display" name="display" value="Display.getInstance()" value-java="Display.getInstance()" enable="true"/>
+                <comment xml:space="preserve">ein graphisch sichtbarer Stapel, der nach dem Last-In-First-Out Prinzip funktioniert</comment>
+                <variable type="VisibleStack" name="stack" value="new VisibleStack()" value-java=" new VisibleStack()" enable="true"/>
+                <call expression="getWorld().addObject(stack,getWorld().getWidth()-60,300)" expression-java="getWorld().addObject(stack, getWorld().getWidth() - 60, 300)" enable="true"/>
+                <comment xml:space="preserve">lege den Startknoten auf den (noch leeren) Stapel</comment>
+                <call expression="stack.push(start)" expression-java="stack.push(start)" enable="true"/>
+                <variable type="Set&lt;Vertex&gt;" name="besuchteKnoten" value="new HashSet&lt;Vertex&gt;()" value-java=" new HashSet &lt; Vertex &gt; ()" enable="true"/>
+                <comment xml:space="preserve">Füge Startknoten der Menge der berücksichtigten Knoten hinzu</comment>
+                <call expression="besuchteKnoten.add(start)" expression-java="besuchteKnoten.add(start)" enable="true"/>
+                <while condition="!stack.empty()" condition-java=" ! stack.empty()" enable="true">
+                    <variable type="Vertex" name="node" value="stack.pop()" value-java="stack.pop()" enable="true"/>
+                    <comment xml:space="preserve">hole den obersten Knoten vom Stapel</comment>
+                    <if condition="node.equals(target)" condition-java="node.equals(target)" enable="true">
+                        <ifStatements>
+                            <call expression="node.drawMe(Color.green)" expression-java="node.drawMe(Color.green)" enable="true"/>
+                            <call expression="display.setMessage(&quot;Found the vertex.&quot;)" expression-java="display.setMessage(&quot;Found the vertex.&quot;)" enable="true"/>
+                            <break enable="true"/>
+                        </ifStatements>
+                    </if>
+                    <comment xml:space="preserve">Besuche den aktuellen Knoten, hier dargestellt durch ein Hervorheben des Knotens.</comment>
+                    <comment xml:space="preserve"> TODO: Untersuche ob Knoten gefunden wurde. </comment>
+                    <foreach type="Vertex" var="node2" collection="node.getFollowers()" collection-java="node.getFollowers()" enable="true">
+                        <comment xml:space="preserve">Durchlaufe die Nachbarn des aktuellen Knotens</comment>
+                        <if condition="!besuchteKnoten.contains(node2)" condition-java=" ! besuchteKnoten.contains(node2)" enable="true">
+                            <ifStatements>
+                                <comment xml:space="preserve">Lege alle Nachbarn, die noch nicht berücksichtigt wurden auf den Stapel</comment>
+                                <call expression="display.setMessage(&quot;Put neighbours of &quot;+node.getName()+&quot; on the stack.&quot;)" expression-java="display.setMessage(&quot;Put neighbours of &quot; + node.getName() + &quot; on the stack.&quot;)" enable="true"/>
+                                <call expression="stack.push(node2)" expression-java="stack.push(node2)" enable="true"/>
+                                <call expression="besuchteKnoten.add(node2)" expression-java="besuchteKnoten.add(node2)" enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </foreach>
+                    <call expression="display.clearMessage()" expression-java="display.clearMessage()" enable="true"/>
+                </while>
+                <call expression="Greenfoot.delay(150)" expression-java="Greenfoot.delay(150)" enable="true"/>
+                <call expression="getWorld().removeObject(stack)" expression-java="getWorld().removeObject(stack)" enable="true"/>
+                <call expression="display.clearMessage()" expression-java="display.clearMessage()" enable="true"/>
+                <call expression="this.unmarkAll()" expression-java="this.unmarkAll()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="playAround" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <foreach type="Vertex" var="vertex" collection="vertices" collection-java="vertices" enable="true">
+                    <call expression="vertex.mark()" expression-java="vertex.mark()" enable="true"/>
+                    <call expression="Greenfoot.delay(20)" expression-java="Greenfoot.delay(20)" enable="true"/>
+                </foreach>
+                <call expression="Greenfoot.delay(100)" expression-java="Greenfoot.delay(100)" enable="true"/>
+                <foreach type="Vertex" var="vertex" collection="vertices" collection-java="vertices" enable="true">
+                    <call expression="vertex.unmark()" expression-java="vertex.unmark()" enable="true"/>
+                </foreach>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="GreenfootImage" name="image" value="new GreenfootImage(this.width,this.height)" value-java=" new GreenfootImage(this.width, this.height)" enable="true"/>
+                <call expression="image.drawRect(0,0,this.width-1,this.height-1)" expression-java="image.drawRect(0, 0, this.width - 1, this.height - 1)" enable="true"/>
+                <call expression="this.setImage(image)" expression-java="this.setImage(image)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the Graph wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="Greenfoot.mouseClicked(this)" condition-java="Greenfoot.mouseClicked(this)" enable="true">
+                    <ifStatements>
+                        <if condition="getSwitcherState().equals(&quot;Add Vertex&quot;)" condition-java="getSwitcherState().equals(&quot;Add Vertex&quot;)" enable="true">
+                            <ifStatements>
+                                <variable type="Vertex" name="newVertex" value="this.createVertex()" value-java="this.createVertex()" enable="true"/>
+                                <call expression="getWorld().addObject(newVertex,Greenfoot.getMouseInfo().getX(),Greenfoot.getMouseInfo().getY())" expression-java="getWorld().addObject(newVertex, Greenfoot.getMouseInfo().getX(), Greenfoot.getMouseInfo().getY())" enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </ifStatements>
+                </if>
+            </body>
+        </method>
+    </methods>
+</class>

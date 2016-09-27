@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="EdgeDeleter" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve">&lt;div&gt;Icons made by &lt;a href="http://www.flaticon.com/authors/pavel-kozlov" title="Pavel Kozlov"&gt;Pavel Kozlov&lt;/a&gt; from &lt;a href="http://www.flaticon.com" title="Flaticon"&gt;www.flaticon.com&lt;/a&gt; is licensed by &lt;a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank"&gt;CC 3.0 BY&lt;/a&gt;&lt;/div&gt;</javadoc>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="Edge" name="edge" enable="true"/>
+        <variable access="private" type="Graph" name="graph" enable="true"/>
+        <variable access="private" type="World" name="world" enable="true"/>
+        <variable access="private" type="int" name="x" enable="true"/>
+        <variable access="private" type="int" name="y" enable="true"/>
+        <variable access="private" static="true" type="EdgeDeleter" name="instance" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="private" enable="true">
+            <javadoc xml:space="preserve">This class is a Singleton - that means there exists only one instance of it</javadoc>
+            <params/>
+            <throws/>
+            <body/>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" static="true" type="EdgeDeleter" name="getInstance" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="instance==null" condition-java="instance == null" enable="true">
+                    <ifStatements>
+                        <assign dest="instance" dest-java="instance" src="new EdgeDeleter()" src-java=" new EdgeDeleter()" enable="true"/>
+                    </ifStatements>
+                </if>
+                <return value="instance" value-java="instance" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="setGraph" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Graph" name="graph"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.graph" dest-java="this.graph" src="graph" src-java="graph" enable="true"/>
+            </body>
+        </method>
+        <method access="protected" type="void" name="addedToWorld" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="World" name="world"/>
+            </params>
+            <throws/>
+            <body>
+                <comment xml:space="preserve">remember the world we have been added to and also where we are in the world</comment>
+                <assign dest="this.world" dest-java="this.world" src="world" src-java="world" enable="true"/>
+                <assign dest="this.x" dest-java="this.x" src="this.getX()" src-java="this.getX()" enable="true"/>
+                <assign dest="this.y" dest-java="this.y" src="this.getY()" src-java="this.getY()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Edge" name="getEdge" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="edge" value-java="edge" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="setEdge" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Edge" name="edge"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.edge" dest-java="this.edge" src="edge" src-java="edge" enable="true"/>
+                <if condition="edge==null" condition-java="edge == null" enable="true">
+                    <ifStatements>
+                        <call expression="getWorld().removeObject(this)" expression-java="getWorld().removeObject(this)" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <call expression="world.addObject(this,x,y)" expression-java="world.addObject(this, x, y)" enable="true"/>
+                    </else>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the EdgeDeleter wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="Greenfoot.mouseClicked(this)" condition-java="Greenfoot.mouseClicked(this)" enable="true">
+                    <ifStatements>
+                        <if condition="edge!=null" condition-java="edge != null" enable="true">
+                            <ifStatements>
+                                <call expression="graph.deleteEdge(edge)" expression-java="graph.deleteEdge(edge)" enable="true"/>
+                                <call expression="getWorldOfType(MyWorld.class).unsetEdge()" expression-java="getWorldOfType(MyWorld.class).unsetEdge()" enable="true"/>
+                                <call expression="this.setEdge(null)" expression-java="this.setEdge(null)" enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </ifStatements>
+                </if>
+            </body>
+        </method>
+    </methods>
+</class>

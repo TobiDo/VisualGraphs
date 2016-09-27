@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=EdgeDeleter
+comment0.text=\n\ <div>Icons\ made\ by\ <a\ href\="http\://www.flaticon.com/authors/pavel-kozlov"\ title\="Pavel\ Kozlov">Pavel\ Kozlov</a>\ from\ <a\ href\="http\://www.flaticon.com"\ title\="Flaticon">www.flaticon.com</a>\ is\ licensed\ by\ <a\ href\="http\://creativecommons.org/licenses/by/3.0/"\ title\="Creative\ Commons\ BY\ 3.0"\ target\="_blank">CC\ 3.0\ BY</a></div>\n
+comment1.params=
+comment1.target=EdgeDeleter()
+comment1.text=\n\ This\ class\ is\ a\ Singleton\ -\ that\ means\ there\ exists\ only\ one\ instance\ of\ it\n
+comment2.params=
+comment2.target=EdgeDeleter\ getInstance()
+comment2.text=\n\ \n
+comment3.params=graph
+comment3.target=void\ setGraph(Graph)
+comment3.text=\n\ \n
+comment4.params=world
+comment4.target=void\ addedToWorld(greenfoot.World)
+comment4.text=\n\ \n
+comment5.params=
+comment5.target=Edge\ getEdge()
+comment5.text=\n\ \n
+comment6.params=edge
+comment6.target=void\ setEdge(Edge)
+comment6.text=\n\ \n
+comment7.params=
+comment7.target=void\ act()
+comment7.text=\n\ Act\ -\ do\ whatever\ the\ EdgeDeleter\ wants\ to\ do.\ This\ method\ is\ called\ whenever\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
+numComments=8

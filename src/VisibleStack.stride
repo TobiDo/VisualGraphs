@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="VisibleStack" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve"/>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="Stack&lt;Vertex&gt;" name="stack" enable="true"/>
+        <variable access="private" type="Stack&lt;Vertex&gt;" name="cloneStack" enable="true"/>
+        <variable access="private" type="int" name="height" enable="true"/>
+        <variable access="private" type="int" name="width" enable="true"/>
+        <variable access="private" type="int" name="margin" value="0" value-java="0" enable="true"/>
+        <variable access="private" type="int" name="numberOfElements" enable="true"/>
+        <variable access="private" type="int" name="elementSize" value="40" value-java="40" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="stack" dest-java="stack" src="new Stack&lt;Vertex&gt;()" src-java=" new Stack &lt; Vertex &gt; ()" enable="true"/>
+                <assign dest="cloneStack" dest-java="cloneStack" src="new Stack&lt;Vertex&gt;()" src-java=" new Stack &lt; Vertex &gt; ()" enable="true"/>
+                <assign dest="width" dest-java="width" src="40" src-java="40" enable="true"/>
+                <assign dest="height" dest-java="height" src="400" src-java="400" enable="true"/>
+                <assign dest="numberOfElements" dest-java="numberOfElements" src="0" src-java="0" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="int" name="getTopY" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="getY()-height/2" value-java="getY() - height / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getBottomY" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="getY()+(height-elementSize)/2" value-java="getY() + (height - elementSize) / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getCurrentY" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="getBottomY()-numberOfElements*(elementSize+margin)" value-java="getBottomY() - numberOfElements * (elementSize + margin)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="pop" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="Vertex" name="displayNode" value="cloneStack.pop()" value-java="cloneStack.pop()" enable="true"/>
+                <variable type="Vertex" name="node" value="stack.pop()" value-java="stack.pop()" enable="true"/>
+                <variable type="int" name="y" value="displayNode.getY()" value-java="displayNode.getY()" enable="true"/>
+                <while condition="y&gt;getTopY()" condition-java="y &gt; getTopY()" enable="true">
+                    <call expression="Greenfoot.delay(1)" expression-java="Greenfoot.delay(1)" enable="true"/>
+                    <assign dest="y" dest-java="y" src="y-5" src-java="y - 5" enable="true"/>
+                    <call expression="displayNode.setLocation(displayNode.getX(),y)" expression-java="displayNode.setLocation(displayNode.getX(), y)" enable="true"/>
+                </while>
+                <call expression="node.mark()" expression-java="node.mark()" enable="true"/>
+                <call expression="node.highlight()" expression-java="node.highlight()" enable="true"/>
+                <call expression="Greenfoot.delay(20)" expression-java="Greenfoot.delay(20)" enable="true"/>
+                <call expression="getWorld().removeObject(displayNode)" expression-java="getWorld().removeObject(displayNode)" enable="true"/>
+                <assign dest="numberOfElements" dest-java="numberOfElements" src="numberOfElements-1" src-java="numberOfElements - 1" enable="true"/>
+                <return value="node" value-java="node" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="push" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="item"/>
+            </params>
+            <throws/>
+            <body>
+                <variable type="Vertex" name="itemClone" value="item.getVisu()" value-java="item.getVisu()" enable="true"/>
+                <call expression="cloneStack.push(itemClone)" expression-java="cloneStack.push(itemClone)" enable="true"/>
+                <call expression="stack.push(item)" expression-java="stack.push(item)" enable="true"/>
+                <call expression="getWorld().addObject(itemClone,getX(),getTopY())" expression-java="getWorld().addObject(itemClone, getX(), getTopY())" enable="true"/>
+                <variable type="int" name="y" value="getTopY()" value-java="getTopY()" enable="true"/>
+                <while condition="y&lt;getCurrentY()" condition-java="y &lt; getCurrentY()" enable="true">
+                    <call expression="Greenfoot.delay(1)" expression-java="Greenfoot.delay(1)" enable="true"/>
+                    <assign dest="y" dest-java="y" src="y+5" src-java="y + 5" enable="true"/>
+                    <call expression="itemClone.setLocation(itemClone.getX(),y)" expression-java="itemClone.setLocation(itemClone.getX(), y)" enable="true"/>
+                </while>
+                <assign dest="numberOfElements" dest-java="numberOfElements" src="numberOfElements+1" src-java="numberOfElements + 1" enable="true"/>
+            </body>
+        </method>
+        <method access="protected" type="void" name="addedToWorld" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="World" name="world"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="super.addedToWorld(world)" expression-java="super.addedToWorld(world)" enable="true"/>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="GreenfootImage" name="edgeImage" value="new GreenfootImage(this.width,this.height)" value-java=" new GreenfootImage(this.width, this.height)" enable="true"/>
+                <call expression="edgeImage.setColor(Color.black)" expression-java="edgeImage.setColor(Color.black)" enable="true"/>
+                <call expression="edgeImage.drawLine(1,1,1,this.height-1)" expression-java="edgeImage.drawLine(1, 1, 1, this.height - 1)" enable="true"/>
+                <call expression="edgeImage.drawLine(1,this.height-1,this.width-1,this.height-1)" expression-java="edgeImage.drawLine(1, this.height - 1, this.width - 1, this.height - 1)" enable="true"/>
+                <call expression="edgeImage.drawLine(this.width-1,1,this.width-1,this.height-1)" expression-java="edgeImage.drawLine(this.width - 1, 1, this.width - 1, this.height - 1)" enable="true"/>
+                <call expression="this.setImage(edgeImage)" expression-java="this.setImage(edgeImage)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="boolean" name="empty" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="numberOfElements==0" value-java="numberOfElements == 0" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the visibleStack wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body/>
+        </method>
+    </methods>
+</class>

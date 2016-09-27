@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Switch" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve"/>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.*" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="int" name="state" enable="true"/>
+        <comment xml:space="preserve">TODO: Change to enum</comment>
+        <variable access="private" type="String[]" name="states" value="{&quot;Move Vertex&quot;,&quot;Add Vertex&quot;,&quot;Add Edge&quot;,&quot;Delete Edge&quot;,&quot;Change weight&quot;,&quot;Tiefensuche&quot;,&quot;Breitensuche&quot;,&quot;Dijkstra&quot;}" value-java="{&quot;Move Vertex&quot;, &quot;Add Vertex&quot;, &quot;Add Edge&quot;, &quot;Delete Edge&quot;, &quot;Change weight&quot;, &quot;Tiefensuche&quot;, &quot;Breitensuche&quot;, &quot;Dijkstra&quot;}" enable="true"/>
+        <variable access="private" type="Map&lt;String,Integer&gt;" name="keyBindings" enable="true"/>
+        <variable access="private" final="true" type="int" name="numberOfStates" value="states.length" value-java="states.length" enable="true"/>
+        <variable access="private" static="true" type="Switch" name="instance" enable="true"/>
+        <variable access="public" final="true" type="int" name="height" value="25" value-java="25" enable="true"/>
+        <variable access="public" final="true" type="int" name="width" enable="true"/>
+        <variable access="private" type="Graphics" name="graphics" enable="true"/>
+        <variable access="private" static="true" type="FontMetrics" name="fontMetrics" value="null" value-java="null" enable="true"/>
+        <variable access="private" static="true" final="true" type="Font" name="font" value="new Font(Font.MONOSPACED,Font.PLAIN,15)" value-java=" new Font(Font.MONOSPACED, Font.PLAIN, 15)" enable="true"/>
+        <comment xml:space="preserve">TODO: get this from font metrics</comment>
+        <variable access="private" static="true" final="true" type="int" name="charWidth" value="9" value-java="9" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="private" enable="true">
+            <javadoc xml:space="preserve">The switch is a Singleton</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="state" dest-java="state" src="0" src-java="0" enable="true"/>
+                <comment xml:space="preserve">Find maximal length of state-name</comment>
+                <variable type="int" name="maxLength" value="0" value-java="0" enable="true"/>
+                <foreach type="String" var="state" collection="states" collection-java="states" enable="true">
+                    <if condition="state.length()&gt;maxLength" condition-java="state.length() &gt; maxLength" enable="true">
+                        <ifStatements>
+                            <assign dest="maxLength" dest-java="maxLength" src="state.length()" src-java="state.length()" enable="true"/>
+                        </ifStatements>
+                    </if>
+                </foreach>
+                <assign dest="this.width" dest-java="this.width" src="maxLength*Switch.charWidth+10" src-java="maxLength * Switch.charWidth + 10" enable="true"/>
+                <call expression="this.drawMe()" expression-java="this.drawMe()" enable="true"/>
+                <comment xml:space="preserve">set-up key bindings</comment>
+                <assign dest="keyBindings" dest-java="keyBindings" src="new HashMap&lt;String,Integer&gt;()" src-java=" new HashMap &lt; String, Integer &gt; ()" enable="true"/>
+                <call expression="keyBindings.put(&quot;m&quot;,0)" expression-java="keyBindings.put(&quot;m&quot;, 0)" enable="true"/>
+                <call expression="keyBindings.put(&quot;v&quot;,1)" expression-java="keyBindings.put(&quot;v&quot;, 1)" enable="true"/>
+                <call expression="keyBindings.put(&quot;e&quot;,2)" expression-java="keyBindings.put(&quot;e&quot;, 2)" enable="true"/>
+                <call expression="keyBindings.put(&quot;d&quot;,3)" expression-java="keyBindings.put(&quot;d&quot;, 3)" enable="true"/>
+                <call expression="keyBindings.put(&quot;c&quot;,4)" expression-java="keyBindings.put(&quot;c&quot;, 4)" enable="true"/>
+                <call expression="keyBindings.put(&quot;t&quot;,5)" expression-java="keyBindings.put(&quot;t&quot;, 5)" enable="true"/>
+                <call expression="keyBindings.put(&quot;b&quot;,6)" expression-java="keyBindings.put(&quot;b&quot;, 6)" enable="true"/>
+                <call expression="keyBindings.put(&quot;s&quot;,7)" expression-java="keyBindings.put(&quot;s&quot;, 7)" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" static="true" type="Switch" name="getInstance" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="instance==null" condition-java="instance == null" enable="true">
+                    <ifStatements>
+                        <assign dest="instance" dest-java="instance" src="new Switch()" src-java=" new Switch()" enable="true"/>
+                    </ifStatements>
+                </if>
+                <return value="instance" value-java="instance" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="GreenfootImage" name="image" value="new GreenfootImage(this.width,this.height)" value-java=" new GreenfootImage(this.width, this.height)" enable="true"/>
+                <if condition="fontMetrics==null" condition-java="fontMetrics == null" enable="false">
+                    <ifStatements>
+                        <assign dest="fontMetrics" dest-java="fontMetrics" src="image.getGraphics().getFontMetrics(Switch.font)" src-java="image.getGraphics().getFontMetrics(Switch.font)" enable="false"/>
+                    </ifStatements>
+                </if>
+                <call expression="image.fillRect(0,0,this.width,this.height)" expression-java="image.fillRect(0, 0, this.width, this.height)" enable="true"/>
+                <call expression="image.setColor(Color.white)" expression-java="image.setColor(Color.white)" enable="true"/>
+                <call expression="image.setFont(Switch.font)" expression-java="image.setFont(Switch.font)" enable="true"/>
+                <call expression="image.drawString(states[state],5,20)" expression-java="image.drawString(states[state], 5, 20)" enable="true"/>
+                <call expression="this.setImage(image)" expression-java="this.setImage(image)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="String[]" name="getStates" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="states" value-java="states" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="String" name="getState" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="this.getStates()[state]" value-java="this.getStates()[state]" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the Switch wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="Greenfoot.mouseClicked(this)" condition-java="Greenfoot.mouseClicked(this)" enable="true">
+                    <ifStatements>
+                        <assign dest="state" dest-java="state" src="(state+1)%numberOfStates" src-java="(state + 1) % numberOfStates" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <foreach type="String" var="key" collection="keyBindings.keySet()" collection-java="keyBindings.keySet()" enable="true">
+                            <if condition="Greenfoot.isKeyDown(key)" condition-java="Greenfoot.isKeyDown(key)" enable="true">
+                                <ifStatements>
+                                    <assign dest="state" dest-java="state" src="keyBindings.get(key).intValue()" src-java="keyBindings.get(key).intValue()" enable="true"/>
+                                    <break enable="true"/>
+                                </ifStatements>
+                            </if>
+                        </foreach>
+                    </else>
+                </if>
+                <if condition="Greenfoot.isKeyDown(&quot;m&quot;)" condition-java="Greenfoot.isKeyDown(&quot;m&quot;)" enable="false">
+                    <ifStatements>
+                        <assign dest="state" dest-java="state" src="0" src-java="0" enable="false"/>
+                    </ifStatements>
+                    <elseIf condition="Greenfoot.isKeyDown(&quot;c&quot;)" condition-java="Greenfoot.isKeyDown(&quot;c&quot;)">
+                        <assign dest="state" dest-java="state" src="4" src-java="4" enable="false"/>
+                    </elseIf>
+                </if>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+    </methods>
+</class>

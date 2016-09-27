@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="VisibleInteger" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve">The representation of an integer  .. not ready yet</javadoc>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="int" name="value" enable="true"/>
+        <variable access="private" type="int" name="size" value="40" value-java="40" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="value"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.value" dest-java="this.value" src="value" src-java="value" enable="true"/>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="Integer" name="getValue" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="value" value-java="value" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="setValue" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="value"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.value" dest-java="this.value" src="value" src-java="value" enable="true"/>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="GreenfootImage" name="image" value="new GreenfootImage(size,size)" value-java=" new GreenfootImage(size, size)" enable="true"/>
+                <call expression="image.drawRect(1,1,size-1,size-1)" expression-java="image.drawRect(1, 1, size - 1, size - 1)" enable="false"/>
+                <call expression="image.drawString(String.valueOf(value),10,size-10)" expression-java="image.drawString(String.valueOf(value), 10, size - 10)" enable="true"/>
+                <call expression="this.setImage(image)" expression-java="this.setImage(image)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the VisibleInteger wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body/>
+        </method>
+    </methods>
+</class>

@@ -1,0 +1,18 @@
+PROJECT TITLE: GRAPH
+PURPOSE OF PROJECT: Educational
+VERSION or DATE: 13.09.2016
+HOW TO START THIS PROJECT: Press "Run"
+AUTHOR: Tobias Dorsch
+USER INSTRUCTIONS:
+
+- To start press "Run"
+- On the bottom right there is a switch, that displays a mode which can be changed by clicking on the switch.
+  Depending on the mode you can:
+  + Move vertices by dragging them.
+  + Add a vertex to the graph by clicking somewhere inside the upper left rectangle. NOTE: Works only if you click outside vertices and of the rectangles that bound the edges. If necessary move edges before.
+  + Add an edge by clicking the two vertices that it should connect.
+  + Delete an edge by clicking on it and confirming by clicking on the cross. (NOTE: Still very buggy.)
+  + Perform a depth-first-search when the switch shows "Tiefensuch": first click on the start edge, then on the target edge.
+
+
+The whole application is still VERY BUGGY. If necessary press "reset" and then re-"run". In particular this might be necessary after performing either of the two available search algorithms.

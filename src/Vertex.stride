@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Vertex" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve"/>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="String" name="name" enable="true"/>
+        <comment xml:space="preserve">List of neighbours of the vertex. Name followers is an artefact of an earlier implementation for directed graphs</comment>
+        <variable access="private" type="List&lt;Vertex&gt;" name="followers" enable="true"/>
+        <comment xml:space="preserve">Diameter of the circle that represents the vertex</comment>
+        <variable access="private" type="int" name="width" value="Images.vertexSize" value-java="Images.vertexSize" enable="true"/>
+        <variable access="private" type="int" name="margin" value="Images.vertexMargin" value-java="Images.vertexMargin" enable="true"/>
+        <comment xml:space="preserve">The graph that this vertex belongs to if existent</comment>
+        <variable access="private" type="Graph" name="graph" enable="true"/>
+        <comment xml:space="preserve">Describes wether the edge is (visually) marked or not</comment>
+        <variable access="private" type="boolean" name="marked" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="String" name="name"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.name" dest-java="this.name" src="name" src-java="name" enable="true"/>
+                <call expression="drawMe(Color.black)" expression-java="drawMe(Color.black)" enable="true"/>
+                <assign dest="followers" dest-java="followers" src="new LinkedList&lt;Vertex&gt;()" src-java=" new LinkedList &lt; Vertex &gt; ()" enable="true"/>
+                <assign dest="graph" dest-java="graph" src="null" src-java="null" enable="true"/>
+                <assign dest="marked" dest-java="marked" src="false" src-java="false" enable="true"/>
+            </body>
+        </constructor>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="String" name="name"/>
+                <param type="Graph" name="graph"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="new Vertex(name)" expression-java=" new Vertex(name)" enable="true"/>
+                <assign dest="this.graph" dest-java="this.graph" src="graph" src-java="graph" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="Graph" name="getGraph" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="graph" value-java="graph" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="setGraph" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Graph" name="graph"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.graph" dest-java="this.graph" src="graph" src-java="graph" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="addFollower" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="newFollower"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="followers.add(newFollower)" expression-java="followers.add(newFollower)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="removeFollower" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="follower"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="followers.remove(follower)" expression-java="followers.remove(follower)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="List&lt;Vertex&gt;" name="getFollowers" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="followers" value-java="followers" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getCenterX" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="width/2" value-java="width / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getCenterY" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="width/2" value-java="width / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve">Draws the image of the vertex.</javadoc>
+            <params>
+                <param type="Color" name="color"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="this.setImage(Images.vertexImage(this,color))" expression-java="this.setImage(Images.vertexImage(this, color))" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="mark" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="marked" dest-java="marked" src="true" src-java="true" enable="true"/>
+                <call expression="this.drawMe(Color.gray)" expression-java="this.drawMe(Color.gray)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="unmark" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="marked" dest-java="marked" src="false" src-java="false" enable="true"/>
+                <call expression="this.drawMe(Color.black)" expression-java="this.drawMe(Color.black)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="highlight" enable="true">
+            <javadoc xml:space="preserve">Highlights the vertex, works only if the vertex belongs to graph</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="graph!=null" condition-java="graph != null" enable="true">
+                    <ifStatements>
+                        <comment xml:space="preserve">Delegated because we want to make sure that only one vertex of the graphs is highlighted at a time</comment>
+                        <call expression="graph.highlightVertex(this)" expression-java="graph.highlightVertex(this)" enable="true"/>
+                    </ifStatements>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="boolean" name="isMarked" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="marked" value-java="marked" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="getVisu" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="new Vertex(this.name)" value-java=" new Vertex(this.name)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="moveRight" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="shift"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="this.setLocation(getX()+shift,getY())" expression-java="this.setLocation(getX() + shift, getY())" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Set&lt;Edge&gt;" name="getAdjacentEdges" enable="true">
+            <javadoc xml:space="preserve">Returns the set of edges that start/end in this vertex</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="graph!=null" condition-java="graph != null" enable="true">
+                    <ifStatements>
+                        <return value="graph.getAdjacentEdges(this)" value-java="graph.getAdjacentEdges(this)" enable="true"/>
+                    </ifStatements>
+                    <else>
+                        <return value="new HashSet&lt;Edge&gt;()" value-java=" new HashSet &lt; Edge &gt; ()" enable="true"/>
+                    </else>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="String" name="getName" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="name" value-java="name" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="remove" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <call expression="getWorld().removeObject(this)" expression-java="getWorld().removeObject(this)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the Vertex wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="graph!=null" condition-java="graph != null" enable="true">
+                    <ifStatements>
+                        <if condition="graph.getSwitcherState().equals(&quot;Move Vertex&quot;)" condition-java="graph.getSwitcherState().equals(&quot;Move Vertex&quot;)" enable="true">
+                            <ifStatements>
+                                <if condition="Greenfoot.mouseDragged(this)" condition-java="Greenfoot.mouseDragged(this)" enable="true">
+                                    <ifStatements>
+                                        <call expression="this.setLocation(Greenfoot.getMouseInfo().getX(),Greenfoot.getMouseInfo().getY())" expression-java="this.setLocation(Greenfoot.getMouseInfo().getX(), Greenfoot.getMouseInfo().getY())" enable="true"/>
+                                        <foreach type="Edge" var="edge" collection="getAdjacentEdges()" collection-java="getAdjacentEdges()" enable="true">
+                                            <comment xml:space="preserve">redraw edges here doesn't work easily somehow</comment>
+                                            <call expression="edge.drawMe(Color.black)" expression-java="edge.drawMe(Color.black)" enable="true"/>
+                                        </foreach>
+                                    </ifStatements>
+                                </if>
+                            </ifStatements>
+                            <elseIf condition="graph.getSwitcherState().equals(&quot;Add Edge&quot;)||graph.getSwitcherState().equals(&quot;Tiefensuche&quot;)||graph.getSwitcherState().equals(&quot;Breitensuche&quot;)||graph.getSwitcherState().equals(&quot;Dijkstra&quot;)" condition-java="graph.getSwitcherState().equals(&quot;Add Edge&quot;) || graph.getSwitcherState().equals(&quot;Tiefensuche&quot;) || graph.getSwitcherState().equals(&quot;Breitensuche&quot;) || graph.getSwitcherState().equals(&quot;Dijkstra&quot;)">
+                                <if condition="Greenfoot.mouseClicked(this)" condition-java="Greenfoot.mouseClicked(this)" enable="true">
+                                    <ifStatements>
+                                        <call expression="getWorldOfType(MyWorld.class).handle(this,graph.getSwitcherState())" expression-java="getWorldOfType(MyWorld.class).handle(this, graph.getSwitcherState())" enable="true"/>
+                                    </ifStatements>
+                                </if>
+                            </elseIf>
+                        </if>
+                    </ifStatements>
+                </if>
+            </body>
+        </method>
+    </methods>
+</class>

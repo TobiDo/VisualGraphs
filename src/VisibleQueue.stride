@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="VisibleQueue" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve"/>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="Queue&lt;Vertex&gt;" name="queue" enable="true"/>
+        <variable access="private" type="LinkedList&lt;Vertex&gt;" name="visibleQueue" enable="true"/>
+        <variable access="private" type="int" name="width" enable="true"/>
+        <variable access="private" type="int" name="height" enable="true"/>
+        <variable access="private" type="int" name="numberOfElements" enable="true"/>
+        <variable access="private" type="int" name="sizeOfElement" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="width"/>
+                <param type="int" name="sizeOfElement"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="queue" dest-java="queue" src="new LinkedList&lt;Vertex&gt;()" src-java=" new LinkedList &lt; Vertex &gt; ()" enable="true"/>
+                <assign dest="visibleQueue" dest-java="visibleQueue" src="new LinkedList&lt;Vertex&gt;()" src-java=" new LinkedList &lt; Vertex &gt; ()" enable="true"/>
+                <assign dest="this.sizeOfElement" dest-java="this.sizeOfElement" src="sizeOfElement" src-java="sizeOfElement" enable="true"/>
+                <assign dest="this.width" dest-java="this.width" src="width" src-java="width" enable="true"/>
+                <assign dest="this.height" dest-java="this.height" src="sizeOfElement+10" src-java="sizeOfElement + 10" enable="true"/>
+                <assign dest="numberOfElements" dest-java="numberOfElements" src="0" src-java="0" enable="true"/>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="GreenfootImage" name="image" value="new GreenfootImage(width,height)" value-java=" new GreenfootImage(width, height)" enable="true"/>
+                <call expression="image.drawLine(1,1,width-1,1)" expression-java="image.drawLine(1, 1, width - 1, 1)" enable="true"/>
+                <call expression="image.drawLine(1,1,1,5)" expression-java="image.drawLine(1, 1, 1, 5)" enable="true"/>
+                <call expression="image.drawLine(1,height-5,1,height-1)" expression-java="image.drawLine(1, height - 5, 1, height - 1)" enable="true"/>
+                <call expression="image.drawLine(1,height-1,width-1,height-1)" expression-java="image.drawLine(1, height - 1, width - 1, height - 1)" enable="true"/>
+                <call expression="image.drawLine(width-1,1,width-1,5)" expression-java="image.drawLine(width - 1, 1, width - 1, 5)" enable="true"/>
+                <call expression="image.drawLine(width-1,height-5,width-1,height-1)" expression-java="image.drawLine(width - 1, height - 5, width - 1, height - 1)" enable="true"/>
+                <call expression="this.setImage(image)" expression-java="this.setImage(image)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="boolean" name="isEmpty" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="queue.isEmpty()" value-java="queue.isEmpty()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getLeftX" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="getX()-width/2" value-java="getX() - width / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getRightX" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="getX()+width/2" value-java="getX() + width / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="int" name="getCurrentX" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="getRightX()-((2*numberOfElements-1)*sizeOfElement)/2" value-java="getRightX() - ((2 * numberOfElements - 1) * sizeOfElement) / 2" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="boolean" name="add" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="item"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="queue.add(item)" expression-java="queue.add(item)" enable="true"/>
+                <assign dest="numberOfElements" dest-java="numberOfElements" src="numberOfElements+1" src-java="numberOfElements + 1" enable="true"/>
+                <variable type="Vertex" name="visibleItem" value="item.getVisu()" value-java="item.getVisu()" enable="true"/>
+                <variable type="int" name="x" value="getLeftX()" value-java="getLeftX()" enable="true"/>
+                <call expression="getWorld().addObject(visibleItem,x,getY())" expression-java="getWorld().addObject(visibleItem, x, getY())" enable="true"/>
+                <while condition="x&lt;getCurrentX()" condition-java="x &lt; getCurrentX()" enable="true">
+                    <call expression="Greenfoot.delay(1)" expression-java="Greenfoot.delay(1)" enable="true"/>
+                    <assign dest="x" dest-java="x" src="x+5" src-java="x + 5" enable="true"/>
+                    <call expression="visibleItem.setLocation(x,getY())" expression-java="visibleItem.setLocation(x, getY())" enable="true"/>
+                </while>
+                <comment xml:space="preserve">TODO: look up what add should return</comment>
+                <call expression="visibleQueue.add(visibleItem)" expression-java="visibleQueue.add(visibleItem)" enable="true"/>
+                <return value="true" value-java="true" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="poll" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="Vertex" name="item" value="queue.poll()" value-java="queue.poll()" enable="true"/>
+                <variable type="Vertex" name="visibleItem" value="visibleQueue.poll()" value-java="visibleQueue.poll()" enable="true"/>
+                <variable type="int" name="x" value="visibleItem.getX()" value-java="visibleItem.getX()" enable="true"/>
+                <variable type="int" name="shift" value="0" value-java="0" enable="true"/>
+                <while condition="shift&lt;sizeOfElement" condition-java="shift &lt; sizeOfElement" enable="true">
+                    <call expression="Greenfoot.delay(1)" expression-java="Greenfoot.delay(1)" enable="true"/>
+                    <assign dest="shift" dest-java="shift" src="shift+1" src-java="shift + 1" enable="true"/>
+                    <assign dest="x" dest-java="x" src="x+1" src-java="x + 1" enable="true"/>
+                    <call expression="visibleItem.setLocation(x,getY())" expression-java="visibleItem.setLocation(x, getY())" enable="true"/>
+                </while>
+                <call expression="visibleItem.mark()" expression-java="visibleItem.mark()" enable="true"/>
+                <call expression="item.mark()" expression-java="item.mark()" enable="true"/>
+                <call expression="Greenfoot.delay(20)" expression-java="Greenfoot.delay(20)" enable="true"/>
+                <call expression="getWorld().removeObject(visibleItem)" expression-java="getWorld().removeObject(visibleItem)" enable="true"/>
+                <variable type="int" name="count" value="0" value-java="0" enable="true"/>
+                <while condition="count&lt;sizeOfElement/5" condition-java="count &lt; sizeOfElement / 5" enable="true">
+                    <foreach type="Vertex" var="vertex" collection="visibleQueue" collection-java="visibleQueue" enable="true">
+                        <call expression="vertex.moveRight(5)" expression-java="vertex.moveRight(5)" enable="true"/>
+                    </foreach>
+                    <assign dest="count" dest-java="count" src="count+1" src-java="count + 1" enable="true"/>
+                    <call expression="Greenfoot.delay(1)" expression-java="Greenfoot.delay(1)" enable="true"/>
+                </while>
+                <assign dest="numberOfElements" dest-java="numberOfElements" src="numberOfElements-1" src-java="numberOfElements - 1" enable="true"/>
+                <return value="item" value-java="item" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="peek" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="queue.peek()" value-java="queue.peek()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="element" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="queue.element()" value-java="queue.element()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="boolean" name="offer" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="Vertex" name="item"/>
+            </params>
+            <throws/>
+            <body>
+                <return value="queue.offer(item)" value-java="queue.offer(item)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="Vertex" name="remove" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <return value="queue.remove()" value-java="queue.remove()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="removeFromWorld" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <variable type="Vertex" name="vertex" value="visibleQueue.poll()" value-java="visibleQueue.poll()" enable="true"/>
+                <while condition="vertex!=null" condition-java="vertex != null" enable="true">
+                    <call expression="getWorld().removeObject(vertex)" expression-java="getWorld().removeObject(vertex)" enable="true"/>
+                    <assign dest="vertex" dest-java="vertex" src="visibleQueue.poll()" src-java="visibleQueue.poll()" enable="true"/>
+                </while>
+                <call expression="getWorld().removeObject(this)" expression-java="getWorld().removeObject(this)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="clear" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <call expression="queue.clear()" expression-java="queue.clear()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the VisibleQueue wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body/>
+        </method>
+    </methods>
+</class>

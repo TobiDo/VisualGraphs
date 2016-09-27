@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Display" extends="Actor" enable="true" strideversion="1">
+    <javadoc xml:space="preserve"/>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+        <import target="java.awt.Font" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <variable access="private" type="String" name="message" enable="true"/>
+        <variable access="private" type="GreenfootImage" name="image" enable="true"/>
+        <variable access="private" static="true" final="true" type="Font" name="font" value="new Font(Font.MONOSPACED,Font.PLAIN,15)" value-java=" new Font(Font.MONOSPACED, Font.PLAIN, 15)" enable="true"/>
+        <variable access="private" static="true" type="Display" name="instance" enable="true"/>
+        <variable access="public" type="int" name="width" enable="true"/>
+        <variable access="public" final="true" type="int" name="height" value="25" value-java="25" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="private" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="this.message" dest-java="this.message" src="&quot;&quot;" src-java="&quot;&quot;" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="void" name="addedToWorld" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="World" name="world"/>
+            </params>
+            <throws/>
+            <body>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="drawMe" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="this.image" dest-java="this.image" src="new GreenfootImage(this.width,this.height)" src-java=" new GreenfootImage(this.width, this.height)" enable="true"/>
+                <call expression="this.image.drawRect(1,1,this.width-2,this.height-2)" expression-java="this.image.drawRect(1, 1, this.width - 2, this.height - 2)" enable="true"/>
+                <call expression="this.image.setFont(Display.font)" expression-java="this.image.setFont(Display.font)" enable="true"/>
+                <call expression="this.image.drawString(this.message,2,20)" expression-java="this.image.drawString(this.message, 2, 20)" enable="true"/>
+                <call expression="this.setImage(this.image)" expression-java="this.setImage(this.image)" enable="true"/>
+            </body>
+        </method>
+        <method access="public" static="true" type="Display" name="getInstance" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="instance==null" condition-java="instance == null" enable="true">
+                    <ifStatements>
+                        <assign dest="instance" dest-java="instance" src="new Display()" src-java=" new Display()" enable="true"/>
+                    </ifStatements>
+                </if>
+                <return value="instance" value-java="instance" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="setMessage" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="String" name="message"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.message" dest-java="this.message" src="message" src-java="message" enable="true"/>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="clearMessage" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="this.message" dest-java="this.message" src="&quot;&quot;" src-java="&quot;&quot;" enable="true"/>
+                <call expression="drawMe()" expression-java="drawMe()" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="setWidth" enable="true">
+            <javadoc xml:space="preserve"/>
+            <params>
+                <param type="int" name="width"/>
+            </params>
+            <throws/>
+            <body>
+                <assign dest="this.width" dest-java="this.width" src="width" src-java="width" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="act" enable="true">
+            <javadoc xml:space="preserve">Act - do whatever the Display wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.</javadoc>
+            <params/>
+            <throws/>
+            <body/>
+        </method>
+    </methods>
+</class>

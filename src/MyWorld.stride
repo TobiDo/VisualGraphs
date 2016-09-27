@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="MyWorld" extends="World" enable="true" strideversion="1">
+    <javadoc xml:space="preserve">The MyWorld class takes care of positioning the graph, switches and display etc.</javadoc>
+    <imports>
+        <import target="java.util.*" enable="true"/>
+        <import target="greenfoot.*" enable="true"/>
+        <import target="java.awt.Color" enable="true"/>
+    </imports>
+    <implements/>
+    <fields>
+        <comment xml:space="preserve">some operations require to remember a vertex or edge</comment>
+        <variable access="private" type="Vertex" name="savedVertex" enable="true"/>
+        <variable access="private" type="Edge" name="savedEdge" value="null" value-java="null" enable="true"/>
+        <comment xml:space="preserve"> the world can display exactly one graph so far</comment>
+        <variable access="private" type="Graph" name="graph" enable="true"/>
+        <comment xml:space="preserve">a helper class to confirm edge deletions</comment>
+        <variable access="private" type="EdgeDeleter" name="edgeDeleter" enable="true"/>
+        <comment xml:space="preserve">a helper class to change the weight of edges</comment>
+        <variable access="private" type="WeightChanger" name="weightChanger" enable="true"/>
+        <variable access="private" static="true" final="true" type="int" name="worldWidth" value="1000" value-java="1000" enable="true"/>
+        <variable access="private" static="true" final="true" type="int" name="worldHeight" value="600" value-java="600" enable="true"/>
+        <variable access="private" static="true" final="true" type="int" name="graphWidth" value="700" value-java="700" enable="true"/>
+        <variable access="private" static="true" final="true" type="int" name="graphHeight" value="450" value-java="450" enable="true"/>
+        <variable access="private" static="true" final="true" type="int" name="topMargin" value="30" value-java="30" enable="true"/>
+        <variable access="private" static="true" final="true" type="int" name="leftMargin" value="5" value-java="5" enable="true"/>
+    </fields>
+    <constructors>
+        <constructor access="public" enable="true">
+            <javadoc xml:space="preserve">Constructor for objects of class MyWorld.</javadoc>
+            <params/>
+            <throws/>
+            <delegate target="super" params="MyWorld.worldWidth,MyWorld.worldHeight,1" params-java="MyWorld.worldWidth, MyWorld.worldHeight, 1"/>
+            <body>
+                <call expression="setPaintOrder(Vertex.class,Edge.class,Graph.class)" expression-java="setPaintOrder(Vertex.class, Edge.class, Graph.class)" enable="true"/>
+                <comment xml:space="preserve">create example graph</comment>
+                <assign dest="graph" dest-java="graph" src="new Graph(MyWorld.graphWidth,MyWorld.graphHeight)" src-java=" new Graph(MyWorld.graphWidth, MyWorld.graphHeight)" enable="true"/>
+                <call expression="addObject(graph,MyWorld.leftMargin+MyWorld.graphWidth/2,MyWorld.topMargin+MyWorld.graphHeight/2)" expression-java="addObject(graph, MyWorld.leftMargin + MyWorld.graphWidth / 2, MyWorld.topMargin + MyWorld.graphHeight / 2)" enable="true"/>
+                <call expression="graph.drawMe()" expression-java="graph.drawMe()" enable="true"/>
+                <comment xml:space="preserve">get the Switch-Singleton and add it to the world</comment>
+                <variable type="Switch" name="switcher" value="Switch.getInstance()" value-java="Switch.getInstance()" enable="true"/>
+                <call expression="addObject(switcher,switcher.width/2+MyWorld.leftMargin,switcher.height/2+2)" expression-java="addObject(switcher, switcher.width / 2 + MyWorld.leftMargin, switcher.height / 2 + 2)" enable="true"/>
+                <comment xml:space="preserve">get the Display-Singleton and add it to the world</comment>
+                <variable type="Display" name="display" value="Display.getInstance()" value-java="Display.getInstance()" enable="true"/>
+                <call expression="display.setWidth(MyWorld.graphWidth-switcher.width-MyWorld.leftMargin)" expression-java="display.setWidth(MyWorld.graphWidth - switcher.width - MyWorld.leftMargin)" enable="true"/>
+                <call expression="addObject(display,switcher.width+2*MyWorld.leftMargin+display.width/2,display.height/2+2)" expression-java="addObject(display, switcher.width + 2 * MyWorld.leftMargin + display.width / 2, display.height / 2 + 2)" enable="true"/>
+                <comment xml:space="preserve"/>
+                <variable type="Vertex" name="nodeA" value="new Vertex(&quot;A&quot;)" value-java=" new Vertex(&quot;A&quot;)" enable="true"/>
+                <variable type="Vertex" name="nodeB" value="new Vertex(&quot;B&quot;)" value-java=" new Vertex(&quot;B&quot;)" enable="true"/>
+                <variable type="Vertex" name="nodeC" value="new Vertex(&quot;C&quot;)" value-java=" new Vertex(&quot;C&quot;)" enable="true"/>
+                <variable type="Vertex" name="nodeD" value="new Vertex(&quot;D&quot;)" value-java=" new Vertex(&quot;D&quot;)" enable="true"/>
+                <variable type="Vertex" name="nodeE" value="new Vertex(&quot;E&quot;)" value-java=" new Vertex(&quot;E&quot;)" enable="true"/>
+                <variable type="Vertex" name="nodeF" value="new Vertex(&quot;F&quot;)" value-java=" new Vertex(&quot;F&quot;)" enable="true"/>
+                <call expression="addObject(nodeA,100,100)" expression-java="addObject(nodeA, 100, 100)" enable="true"/>
+                <call expression="addObject(nodeB,300,240)" expression-java="addObject(nodeB, 300, 240)" enable="true"/>
+                <call expression="addObject(nodeC,250,50)" expression-java="addObject(nodeC, 250, 50)" enable="true"/>
+                <call expression="addObject(nodeD,60,400)" expression-java="addObject(nodeD, 60, 400)" enable="true"/>
+                <call expression="addObject(nodeE,500,250)" expression-java="addObject(nodeE, 500, 250)" enable="true"/>
+                <call expression="addObject(nodeF,350,400)" expression-java="addObject(nodeF, 350, 400)" enable="true"/>
+                <call expression="graph.addVertex(nodeA)" expression-java="graph.addVertex(nodeA)" enable="true"/>
+                <call expression="graph.addVertex(nodeB)" expression-java="graph.addVertex(nodeB)" enable="true"/>
+                <call expression="graph.addVertex(nodeC)" expression-java="graph.addVertex(nodeC)" enable="true"/>
+                <call expression="graph.addVertex(nodeD)" expression-java="graph.addVertex(nodeD)" enable="true"/>
+                <call expression="graph.addVertex(nodeE)" expression-java="graph.addVertex(nodeE)" enable="true"/>
+                <call expression="graph.addVertex(nodeF)" expression-java="graph.addVertex(nodeF)" enable="true"/>
+                <call expression="graph.addUndirectedEdge(nodeB,nodeD)" expression-java="graph.addUndirectedEdge(nodeB, nodeD)" enable="true"/>
+                <call expression="graph.addUndirectedEdge(nodeB,nodeC)" expression-java="graph.addUndirectedEdge(nodeB, nodeC)" enable="true"/>
+                <call expression="graph.addUndirectedEdge(nodeC,nodeE)" expression-java="graph.addUndirectedEdge(nodeC, nodeE)" enable="true"/>
+                <call expression="graph.addUndirectedEdge(nodeD,nodeE)" expression-java="graph.addUndirectedEdge(nodeD, nodeE)" enable="true"/>
+                <call expression="graph.addUndirectedEdge(nodeA,nodeB)" expression-java="graph.addUndirectedEdge(nodeA, nodeB)" enable="true"/>
+                <call expression="graph.addUndirectedEdge(nodeD,nodeF)" expression-java="graph.addUndirectedEdge(nodeD, nodeF)" enable="true"/>
+                <comment xml:space="preserve">Get EdgeDeleter-Singleton and add it to world</comment>
+                <assign dest="edgeDeleter" dest-java="edgeDeleter" src="EdgeDeleter.getInstance()" src-java="EdgeDeleter.getInstance()" enable="true"/>
+                <call expression="edgeDeleter.setGraph(graph)" expression-java="edgeDeleter.setGraph(graph)" enable="true"/>
+                <call expression="this.addObject(edgeDeleter,getWidth()-50,50)" expression-java="this.addObject(edgeDeleter, getWidth() - 50, 50)" enable="true"/>
+                <comment xml:space="preserve">Setting the edge to null will remove the EdgeDeleter from the world, however it will remember "its place in the world"</comment>
+                <call expression="edgeDeleter.setEdge(null)" expression-java="edgeDeleter.setEdge(null)" enable="true"/>
+                <comment xml:space="preserve">Add weightChanger . This class will display the new weigth when changing weight of edges .</comment>
+                <assign dest="this.weightChanger" dest-java="this.weightChanger" src="new WeightChanger(null,graph)" src-java=" new WeightChanger(null, graph)" enable="true"/>
+                <call expression="this.addObject(weightChanger,getWidth()-100,100)" expression-java="this.addObject(weightChanger, getWidth() - 100, 100)" enable="true"/>
+            </body>
+        </constructor>
+    </constructors>
+    <methods>
+        <method access="public" type="void" name="handle" enable="true">
+            <javadoc xml:space="preserve">Gets called when user clicks on an edge in Delete Edge or Change Weight state
+The edge gets highlighted (and previously selected edges get unhighlighted). Further action is delegated to responsible classes.</javadoc>
+            <params>
+                <param type="Edge" name="edge"/>
+                <param type="String" name="state"/>
+            </params>
+            <throws/>
+            <body>
+                <if condition="savedEdge!=null" condition-java="savedEdge != null" enable="true">
+                    <ifStatements>
+                        <call expression="savedEdge.unmark()" expression-java="savedEdge.unmark()" enable="true"/>
+                    </ifStatements>
+                </if>
+                <assign dest="savedEdge" dest-java="savedEdge" src="edge" src-java="edge" enable="true"/>
+                <call expression="savedEdge.mark()" expression-java="savedEdge.mark()" enable="true"/>
+                <if condition="state.equals(&quot;Delete Edge&quot;)" condition-java="state.equals(&quot;Delete Edge&quot;)" enable="true">
+                    <ifStatements>
+                        <call expression="edgeDeleter.setEdge(edge)" expression-java="edgeDeleter.setEdge(edge)" enable="true"/>
+                    </ifStatements>
+                    <elseIf condition="state.equals(&quot;Change weight&quot;)" condition-java="state.equals(&quot;Change weight&quot;)">
+                        <call expression="weightChanger.setEdge(edge)" expression-java="weightChanger.setEdge(edge)" enable="true"/>
+                    </elseIf>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="void" name="handle" enable="true">
+            <javadoc xml:space="preserve">Gets called when user clicks on a vertex in certain states.
+On the first click the vertex gets marked and saved. When another vertex is clicked, the corresponding actions are performed.
+NOTE: As it is now, this is only useful for actions that require to vertices.</javadoc>
+            <params>
+                <param type="Vertex" name="vertex"/>
+                <param type="String" name="state"/>
+            </params>
+            <throws/>
+            <body>
+                <if condition="savedVertex!=null" condition-java="savedVertex != null" enable="true">
+                    <ifStatements>
+                        <if condition="savedVertex!=vertex" condition-java="savedVertex != vertex" enable="true">
+                            <ifStatements>
+                                <if condition="state.equals(&quot;Add Edge&quot;)" condition-java="state.equals(&quot;Add Edge&quot;)" enable="true">
+                                    <ifStatements>
+                                        <call expression="graph.addUndirectedEdge(savedVertex,vertex)" expression-java="graph.addUndirectedEdge(savedVertex, vertex)" enable="true"/>
+                                    </ifStatements>
+                                    <elseIf condition="state.equals(&quot;Tiefensuche&quot;)" condition-java="state.equals(&quot;Tiefensuche&quot;)">
+                                        <call expression="vertex.drawMe(Color.orange)" expression-java="vertex.drawMe(Color.orange)" enable="true"/>
+                                        <call expression="graph.dfsearch(savedVertex,vertex)" expression-java="graph.dfsearch(savedVertex, vertex)" enable="true"/>
+                                    </elseIf>
+                                    <elseIf condition="state.equals(&quot;Breitensuche&quot;)" condition-java="state.equals(&quot;Breitensuche&quot;)">
+                                        <call expression="vertex.drawMe(Color.orange)" expression-java="vertex.drawMe(Color.orange)" enable="true"/>
+                                        <call expression="graph.bfsearch(savedVertex,vertex)" expression-java="graph.bfsearch(savedVertex, vertex)" enable="true"/>
+                                    </elseIf>
+                                    <elseIf condition="state.equals(&quot;Dijkstra&quot;)" condition-java="state.equals(&quot;Dijkstra&quot;)">
+                                        <variable type="Dijkstra" name="dijkstra" value="new Dijkstra()" value-java=" new Dijkstra()" enable="true"/>
+                                        <call expression="this.addObject(dijkstra,30,this.worldHeight-20)" expression-java="this.addObject(dijkstra, 30, this.worldHeight - 20)" enable="true"/>
+                                        <call expression="dijkstra.shortestPath(savedVertex,vertex)" expression-java="dijkstra.shortestPath(savedVertex, vertex)" enable="true"/>
+                                    </elseIf>
+                                </if>
+                                <call expression="resetVertex()" expression-java="resetVertex()" enable="true"/>
+                            </ifStatements>
+                        </if>
+                    </ifStatements>
+                    <else>
+                        <assign dest="savedVertex" dest-java="savedVertex" src="vertex" src-java="vertex" enable="true"/>
+                        <call expression="savedVertex.mark()" expression-java="savedVertex.mark()" enable="true"/>
+                    </else>
+                </if>
+            </body>
+        </method>
+        <method access="public" type="void" name="unsetEdge" enable="true">
+            <javadoc xml:space="preserve">Discard the saved edge. Used for example whenever we change the state.</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <assign dest="savedEdge" dest-java="savedEdge" src="null" src-java="null" enable="true"/>
+            </body>
+        </method>
+        <method access="public" type="void" name="resetVertex" enable="true">
+            <javadoc xml:space="preserve">Discard the saved vertex. Used for example whenever we change the state.</javadoc>
+            <params/>
+            <throws/>
+            <body>
+                <if condition="savedVertex!=null" condition-java="savedVertex != null" enable="true">
+                    <ifStatements>
+                        <call expression="savedVertex.unmark()" expression-java="savedVertex.unmark()" enable="true"/>
+                        <assign dest="savedVertex" dest-java="savedVertex" src="null" src-java="null" enable="true"/>
+                    </ifStatements>
+                </if>
+            </body>
+        </method>
+    </methods>
+</class>
